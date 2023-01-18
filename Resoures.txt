@@ -1,0 +1,2 @@
+Durand, Maxime. "Add the GeoIP2 module to NGINX." Medium, 2 May 2020, medium.com/@maxime.durand.54/ 
+     add-the-geoip2-module-to-nginx-f0b56e015763. Accessed 18 Jan. 2023. 
