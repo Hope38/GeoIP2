@@ -46,3 +46,34 @@ $ cp -vi objs/ngx_http_geoip2_module.so /etc/nginx/modules/
 
 #Add the module to the nginx.conf
 $ load_module modules/ngx_http_geoip2_module.so;
+
+#Check the Nginx configuration
+#$ sudo nginx -t
+#$ nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+#$ nginx: configuration file /etc/nginx/nginx.conf test is successful
+
+#Restrict any servers from certain countries, by editing /etc/nginx/nginx.conf
+[...]
+
+http {
+    geoip2 /var/lib/GeoIP/GeoLite2-Country.mmdb {
+       $geoip2_data_country_iso_code country iso_code;
+    }
+
+    map $geoip2_data_country_iso_code $allowed_country {
+       default no;
+       FR yes; # France
+       BE yes; # Belgium
+       DE yes; # Germany
+       CH yes; # Switzerland
+    }
+
+    server {
+       # Block forbidden country
+       if ($allowed_country = no) {
+           return 444;
+       }
+
+       [...]
+    }
+}
