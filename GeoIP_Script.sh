@@ -24,7 +24,7 @@ sudo apt install geoipupdate libmaxminddb0 libmaxminddb-dev mmdb-bin
 #Create a MaxMind Account
 #https://www.maxmind.com/en/accounts/current/license-key
 #Then go to manage licenses key and click on generate license key
-#In the /etc/GeoIP.conf file, replace "YOUR_ACCOUNT_ID_HERE" & "YOUR_LICENSE_KEY_HERE" with your accound id number and license key from your Maxmind account
+#In the /etc/GeoIP.conf file, replace "YOUR_ACCOUNT_ID_HERE" & "YOUR_LICENSE_KEY_HERE" with your account id number and license key
 #Depending on the license you might need to change the EditionIDs
 
 #update the geoip database
