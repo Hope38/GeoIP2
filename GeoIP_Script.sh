@@ -33,7 +33,7 @@ $ sudo geoipupdate
 #"cron" submits, edits, lists, or removes cron jobs. A cron job is a command run by the cron daemon at regularly scheduled intervals. 
 #To submit a cron job, specify the crontab command with the -e flag. 
 
-#add a new cron rulle to enable a daily update
+#add a new cron rule to enable a daily update
 $ sudo crontab -e
 
 # Run GeoIP database update every thursday at 02:00
@@ -60,10 +60,13 @@ $ make modules
 
 #"mkdir" makes a new directory
 #"-p" means parents, so when you put it with mkdir it makes a parent directory
-
-#Copy the GeoIP2 module in the Nginx directory
 $ mkdir -p /etc/nginx/modules
 
+#cp -v -Stands for verbose, it prints informative messages
+#cp -i -Stands for Interative, it ask before it writes
+#cp is used for copying things in directories.
+
+#Copy the GeoIP2 module in the Nginx directory
 $ cp -vi objs/ngx_http_geoip2_module.so /etc/nginx/modules/
 
 #Add the module to the nginx.conf
