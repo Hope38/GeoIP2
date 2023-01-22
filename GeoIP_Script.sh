@@ -1,4 +1,5 @@
 #https://medium.com/@maxime.durand.54/add-the-geoip2-module-to-nginx-f0b56e015763
+https://www.linuxfordevices.com/tutorials/linux/automatic-updates-cronjob
 
 #"sudo" enables users to run programs with the security privileges of another user
 #"apt" is a high-level computer programming language that is used to generate instructions.
@@ -6,11 +7,11 @@
 #A script which adds an external APT repository or removes an already existing repository - "add-apt-repository [OPTIONS] REPOSITORY"
 #Ubuntu
 #ppa:maxmind/ppa is the repository
-$ sudo add-apt-repository ppa:maxmind/ppa
+ sudo add-apt-repository ppa:maxmind/ppa
 
 
 #After adding the repository, update the package cache with packages from this repository
-$ sudo apt update
+ sudo apt update
 
 
 #"libmaxminddb" library provides a C library for reading MaxMind DB files, including the GeoIP2 databases from MaxMind.
@@ -28,54 +29,61 @@ sudo apt install geoipupdate libmaxminddb0 libmaxminddb-dev mmdb-bin
 #Depending on the license you might need to change the EditionIDs
 
 #update the geoip database
-$ sudo geoipupdate
+ sudo geoipupdate
 
 #"cron" submits, edits, lists, or removes cron jobs. A cron job is a command run by the cron daemon at regularly scheduled intervals. 
 #To submit a cron job, specify the crontab command with the -e flag. 
+#The cron format - [minute] [hour] [day_of_month] [month] [day_of_week] [user] [command_to_run]
 
-#add a new cron rule to enable a daily update
-$ sudo crontab -e
+#Install Cron utilities
+sudo apt install cron
 
-# Run GeoIP database update every thursday at 02:00
-$ 0 2 * * 2 /usr/bin/geoipupdate
+#Enable the cron service to run in the background, systemctl is a abbreviation for system controls. Used to manage services on the system.
+sudo systemctl enable cron
+ 
+#Update the system to the global crontab
+ sudo nano /etc/crontab
+
+#Update the Ubuntu system every thursday at 02:00
+0 2 * * THU root /usr/bin/apt update -q -y >> /var/log/apt/automaticupdates.log
 
 #Add the GeoIP2 module to Nginx. This clones the github repository of the module
-$ git clone https://github.com/leev/ngx_http_geoip2_module.git
+ git clone https://github.com/leev/ngx_http_geoip2_module.git
 
 #Check your Nginx version before downloading with this command below
-# $ nginx-v
+#  nginx-v
 
 # "tar" means an archiving utility, "z" means unzip, "x" means extract files from archive, "v" means print the filenames verbosely, "f" means the following argument is a filename
 # "wget" means the non-interative network downloader
 # "cd" allows you to change directories
 
 #Download the Nginx corresponding version
-$ wget http://nginx.org/download/nginx-VERSION.tar.gz
-$ tar zxvf nginx-VERSION.tar.gz
-$ cd nginx-VERSION
+wget http://nginx.org/download/nginx-VERSION.tar.gz
+tar zxvf nginx-VERSION.tar.gz
+cd nginx-VERSION
 
 #Make the module
-$ ./configure --with-compat --add-dynamic-module=../ngx_http_geoip2_module
-$ make modules
+ ./configure --with-compat --add-dynamic-module=../ngx_http_geoip2_module
+ make modules
 
 #"mkdir" makes a new directory
 #"-p" means parents, so when you put it with mkdir it makes a parent directory
-$ mkdir -p /etc/nginx/modules
+ mkdir -p /etc/nginx/modules
 
 #cp -v -Stands for verbose, it prints informative messages
 #cp -i -Stands for Interative, it ask before it writes
 #cp is used for copying things in directories.
 
 #Copy the GeoIP2 module in the Nginx directory
-$ cp -vi objs/ngx_http_geoip2_module.so /etc/nginx/modules/
+ cp -vi objs/ngx_http_geoip2_module.so /etc/nginx/modules/
 
 #Add the module to the nginx.conf
-$ load_module modules/ngx_http_geoip2_module.so;
+ load_module modules/ngx_http_geoip2_module.so;
 
 #Check the Nginx configuration
-#$ sudo nginx -t
-#$ nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
-#$ nginx: configuration file /etc/nginx/nginx.conf test is successful
+# sudo nginx -t
+# nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+# nginx: configuration file /etc/nginx/nginx.conf test is successful
 
 #Restrict any servers from certain countries, by editing /etc/nginx/nginx.conf
 [...]
