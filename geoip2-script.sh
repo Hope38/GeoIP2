@@ -1,5 +1,6 @@
 #https://medium.com/@maxime.durand.54/add-the-geoip2-module-to-nginx-f0b56e015763
-https://www.linuxfordevices.com/tutorials/linux/automatic-updates-cronjob
+#https://www.linuxfordevices.com/tutorials/linux/automatic-updates-cronjob
+#https://www.codedodle.com/nginx-geoip2-ubuntu.html
 
 #"sudo" enables users to run programs with the security privileges of another user
 #"apt" is a high-level computer programming language that is used to generate instructions.
